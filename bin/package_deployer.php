@@ -51,8 +51,9 @@ END;
 				
 				if (file_exists($packageName)) {
 					// Is version number higher?
-					if (version_compare($versionNumber, file_get_contents($packageName))) {
+					if (version_compare($versionNumber, file_get_contents($packageName)) != 1) {
 						$unpack = false;
+						fwrite(STDERR, "ERROR: Package $entry is older than latest deployed version \n");
 					}
 				} 
 				
@@ -66,10 +67,12 @@ END;
 					fclose($fp);
 					
 					// Untar
-					system('/usr/bin/tar -xzf ' . $packageDirectory . '/' . $entry . ' -C / ');
+					system('/bin/tar -xzf ' . $packageDirectory . '/' . $entry . ' -C / ');
 
 					// Delete tar
-					unlink( $packageDirectory . '/' . $entry);					
+					unlink( $packageDirectory . '/' . $entry);	
+					
+					fwrite(STDERR, "Package $entry succesfully deployed \n");
 					
 				}
 				
