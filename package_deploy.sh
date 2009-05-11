@@ -9,7 +9,7 @@ else
 	INCOMING_DIR=`dirname $1`/`basename $1`
 	TMP_DIR=`dirname $2`/`basename $2`
 
-	for f in $( ls $INCOMING_DIR/*.tar.gz ); do
+	for f in $( ls $INCOMING_DIR/*.tar.gz 2> /dev/null ); do
 		mv $f $TMP_DIR
 		cd $TMP_DIR
 		tar -xvzf `basename $f`
